@@ -1,0 +1,34 @@
+import * as THREE from 'three';
+import { ASPECT, FAR_NUMBER, FIELD_OF_VIEW, NEAR_NUMBER } from '../globals/constants';
+import { animate } from './render';
+
+export function setup() {
+    // Creating a scene
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(
+        FIELD_OF_VIEW,
+        ASPECT, 
+        NEAR_NUMBER,
+        FAR_NUMBER
+    );
+    const renderer = new THREE.WebGLRenderer();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    document.body.appendChild(renderer.domElement);
+    
+    // Adding a cube to the scene
+    const geometry = new THREE.BoxGeometry(1, 1, 1);
+    const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+    const cube = new THREE.Mesh(geometry, material);
+    
+    scene.add(cube);
+    camera.position.z = 5;
+    
+    // Rendering the whole scene
+    animate(renderer, () => {
+        renderer.render(scene, camera);
+        
+        // Rotating the cube
+        cube.rotation.x += 0.01;
+        cube.rotation.y += 0.01;
+    });
+}
