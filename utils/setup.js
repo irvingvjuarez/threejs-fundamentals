@@ -16,10 +16,14 @@ export function setup() {
     renderer.setSize(window.innerWidth, window.innerHeight);
     document.body.appendChild(renderer.domElement);
     
-    // Adding a cube to the scene
-    const greenCube = createCube({});
-    
-    scene.add(greenCube);
+    // Adding cubes to the scene
+    const greenCube = createCube({ color: 0x44aa88 });
+    const whiteCube = createCube({ x: 3, color: 0x8844aa });
+    const blackCube = createCube({ x: -3, color: 0xaa8844 });
+
+    const cubes = [greenCube, whiteCube, blackCube];
+
+    cubes.forEach(cube => scene.add(cube));
     camera.position.set(0,0,35);
     camera.lookAt(0,0,0)
 
@@ -46,9 +50,11 @@ export function setup() {
     animate(renderer, () => {
         renderer.render(scene, camera);
         
-        // Rotating the cube
-        greenCube.rotation.x += 0.01;
-        greenCube.rotation.y += 0.01;
+        // Rotating the cubes
+        cubes.forEach((cube, index) => {
+            cube.rotation.x += (0.01 + (index / 100));
+            cube.rotation.y += (0.01 + (index / 100));
+        })
 
         // Trying to rotate the line
         line.rotation.y += 0.01;
