@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { ASPECT, FAR_NUMBER, FIELD_OF_VIEW, NEAR_NUMBER } from '../globals/constants';
+import { createCube } from './createCube';
 import { animate } from './render';
 
 export function setup() {
@@ -16,11 +17,9 @@ export function setup() {
     document.body.appendChild(renderer.domElement);
     
     // Adding a cube to the scene
-    const cubeGeometry = new THREE.BoxGeometry(1, 1, 1);
-    const cubeMaterial = new THREE.MeshPhongMaterial({ color: 0x00ff00 });
-    const cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
+    const greenCube = createCube({});
     
-    scene.add(cube);
+    scene.add(greenCube);
     camera.position.set(0,0,35);
     camera.lookAt(0,0,0)
 
@@ -48,8 +47,8 @@ export function setup() {
         renderer.render(scene, camera);
         
         // Rotating the cube
-        cube.rotation.x += 0.01;
-        cube.rotation.y += 0.01;
+        greenCube.rotation.x += 0.01;
+        greenCube.rotation.y += 0.01;
 
         // Trying to rotate the line
         line.rotation.y += 0.01;
