@@ -3,7 +3,7 @@ import { ASPECT, FAR_NUMBER, FIELD_OF_VIEW, NEAR_NUMBER } from '../globals/const
 import { createCube } from './createCube';
 import { animate } from './render';
 
-export function setup() {
+export function setup(canvasComponent) {
     // Creating a scene
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(
@@ -12,7 +12,7 @@ export function setup() {
         NEAR_NUMBER,
         FAR_NUMBER
     );
-    const renderer = new THREE.WebGLRenderer();
+    const renderer = new THREE.WebGLRenderer({ canvas: canvasComponent });
     renderer.setSize(window.innerWidth, window.innerHeight);
     document.body.appendChild(renderer.domElement);
     
@@ -49,6 +49,9 @@ export function setup() {
     // Rendering the whole scene
     animate(renderer, () => {
         renderer.render(scene, camera);
+        const canvas = renderer.domElement;
+        camera.aspect = canvas.clientWidth / canvas.clientHeight;
+        camera.updateProjectionMatrix();
         
         // Rotating the cubes
         cubes.forEach((cube, index) => {

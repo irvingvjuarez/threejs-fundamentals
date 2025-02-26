@@ -8,7 +8,8 @@ import { setup } from './utils/setup';
 
 // Verifying the web browser accepts WebGL
 if (WebGL.isWebGL2Available()) {
-    setup();
+    const canvasComponent = document.getElementById('threejs-container');
+    setup(canvasComponent);
 } else {
     const warning = WebGL.getWebGL2ErrorMessage();
 	document.body.appendChild( warning );
