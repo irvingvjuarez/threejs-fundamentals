@@ -17,11 +17,11 @@ export function setup() {
     
     // Adding a cube to the scene
     const cubeGeometry = new THREE.BoxGeometry(1, 1, 1);
-    const cubeMaterial = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+    const cubeMaterial = new THREE.MeshPhongMaterial({ color: 0x00ff00 });
     const cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
     
     scene.add(cube);
-    camera.position.set(0,0,100);
+    camera.position.set(0,0,35);
     camera.lookAt(0,0,0)
 
     // Adding a line to the scene
@@ -35,6 +35,13 @@ export function setup() {
     const line = new THREE.Line(lineGeometry, lineMaterial);
 
     scene.add(line);
+
+    // Adding a light
+    const color = 0xFFFFFF;
+    const intensity = 3;
+    const light = new THREE.DirectionalLight(color, intensity);
+    light.position.set(-1, 2, 4);
+    scene.add(light);
     
     // Rendering the whole scene
     animate(renderer, () => {
