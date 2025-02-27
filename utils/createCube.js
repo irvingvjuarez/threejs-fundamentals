@@ -6,7 +6,14 @@ export function createCube({x = 0, y = 0, z = 0, color = 0x00ff00, ...props}) {
         material = new THREE.MeshPhongMaterial({ color })
     } = props
 
+    const edgesGeometry = new THREE.EdgesGeometry(geometry, 360);
+    const edgesMaterial = new THREE.LineBasicMaterial({ color: 'black' });
+
+    const lineSegments = new THREE.LineSegments(edgesGeometry, edgesMaterial);
+
     const cube = new THREE.Mesh(geometry, material);
+    cube.add(lineSegments);
+    
     cube.position.x = x;
     cube.position.y = y;
     cube.position.z = z;

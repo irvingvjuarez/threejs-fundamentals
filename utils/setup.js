@@ -25,7 +25,7 @@ export function setup(canvasComponent) {
     const cubes = [greenCube, whiteCube, blackCube];
 
     cubes.forEach(cube => scene.add(cube));
-    camera.position.set(0,0,35);
+    camera.position.set(0,0,15);
     camera.lookAt(0,0,0)
 
     // Adding a line to the scene
