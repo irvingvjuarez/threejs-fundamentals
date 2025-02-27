@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import { ASPECT, FAR_NUMBER, FIELD_OF_VIEW, NEAR_NUMBER } from '../globals/constants';
 import { createCube } from './createCube';
 import { animate } from './render';
+import { resizeRenderer } from './resizeRenderer';
 
 export function setup(canvasComponent) {
     // Creating a scene
@@ -49,15 +50,18 @@ export function setup(canvasComponent) {
     // Rendering the whole scene
     animate(renderer, () => {
         renderer.render(scene, camera);
-        const canvas = renderer.domElement;
-        camera.aspect = canvas.clientWidth / canvas.clientHeight;
-        camera.updateProjectionMatrix();
+
+        if (resizeRenderer(renderer)) {
+            const canvas = renderer.domElement;
+            camera.aspect = canvas.clientWidth / canvas.clientHeight;
+            camera.updateProjectionMatrix();
+        }
         
         // Rotating the cubes
         cubes.forEach((cube, index) => {
             cube.rotation.x += (0.01 + (index / 100));
             cube.rotation.y += (0.01 + (index / 100));
-        })
+        });
 
         // Trying to rotate the line
         line.rotation.y += 0.01;
