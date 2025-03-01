@@ -34,6 +34,7 @@ export function setup(canvasComponent) {
     const controls = new OrbitControls(camera, renderer.domElement);
     controls.target.set(0,0,0);
     controls.update();
+    controls.enableDamping = true;
 
     // Adding a light
     const color = 0xFFFFFF;
@@ -43,7 +44,11 @@ export function setup(canvasComponent) {
     scene.add(light);
     
     // Rendering the whole scene
+    let renderRequested = false;
+
     function render() {
+        renderRequested = false;
+
         if (resizeRenderer(renderer)) {
             const canvas = renderer.domElement;
             camera.aspect = canvas.clientWidth / canvas.clientHeight;
@@ -52,12 +57,18 @@ export function setup(canvasComponent) {
 
         renderer.render(scene, camera);
     }
-
     render();
 
+    function requestRenderIfNotRequested() {
+        if (renderRequested === false) {
+            renderRequested = true;
+            requestAnimationFrame(render);
+        }
+    }
+
     // Event listeners - Rendering on demand
-    controls.addEventListener('change', render);
-    window.addEventListener('resize', render);
+    controls.addEventListener('change', requestRenderIfNotRequested);
+    window.addEventListener('resize', requestRenderIfNotRequested);
 
     // animate(renderer, () => {
     //     renderer.render(scene, camera);
