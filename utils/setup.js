@@ -1,7 +1,9 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
+import { GUI } from 'three/examples/jsm/libs/lil-gui.module.min.js';
 import { ASPECT, FAR_NUMBER, FIELD_OF_VIEW, NEAR_NUMBER } from '../globals/constants';
 import { createCube } from './createCube';
+import { makeInstance } from './makeInstance';
 import { animate } from './render';
 import { resizeRenderer } from './resizeRenderer';
 
@@ -17,11 +19,36 @@ export function setup(canvasComponent) {
     const renderer = new THREE.WebGLRenderer({ canvas: canvasComponent });
     renderer.setSize(window.innerWidth, window.innerHeight);
     document.body.appendChild(renderer.domElement);
+
+    // GUI
+    const gui = new GUI();
     
     // Adding cubes to the scene
-    const greenCube = createCube({ color: 0x44aa88 });
-    const whiteCube = createCube({ x: 3, color: 0x8844aa });
-    const blackCube = createCube({ x: -3, color: 0xaa8844 });
+    const defaultConfig = {
+        gui,
+        handlerChange: requestRenderIfNotRequested
+    }
+    // const greenCube = createCube({ color: 0x44aa88 });
+    const greenCube = makeInstance({ 
+        ...defaultConfig,
+        instanceName: 'Green Cube', 
+        color: 0x44aa88, 
+        x: 0
+    });
+    // const whiteCube = createCube({ x: 3, color: 0x8844aa });
+    const whiteCube = makeInstance({
+        ...defaultConfig,
+        instanceName: 'White Cube',
+        color: 0x8844aa,
+        x: 3
+    });
+    // const blackCube = createCube({ x: -3, color: 0xaa8844 });
+    const blackCube = makeInstance({
+        ...defaultConfig,
+        instanceName: 'Black Cube',
+        color: 0xaa8844,
+        x: -3
+    })
 
     const cubes = [greenCube, whiteCube, blackCube];
     cubes.forEach(cube => scene.add(cube));
