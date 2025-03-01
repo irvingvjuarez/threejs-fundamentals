@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { ASPECT, FAR_NUMBER, FIELD_OF_VIEW, NEAR_NUMBER } from '../globals/constants';
 import { createCube } from './createCube';
 import { animate } from './render';
@@ -23,22 +24,16 @@ export function setup(canvasComponent) {
     const blackCube = createCube({ x: -3, color: 0xaa8844 });
 
     const cubes = [greenCube, whiteCube, blackCube];
-
     cubes.forEach(cube => scene.add(cube));
+
+    // Camera setup
     camera.position.set(0,0,15);
-    camera.lookAt(0,0,0)
+    camera.lookAt(0,0,0);
 
-    // Adding a line to the scene
-    const lineMaterial = new THREE.LineBasicMaterial({ color: 0x00ff00 });
-    const linePoints = [
-        new THREE.Vector3(-10, 10, 0),
-        new THREE.Vector3(0, 10, 0),
-        new THREE.Vector3(10, 10, 0),
-    ];
-    const lineGeometry = new THREE.BufferGeometry().setFromPoints(linePoints);
-    const line = new THREE.Line(lineGeometry, lineMaterial);
-
-    scene.add(line);
+    // Controls setup
+    const controls = new OrbitControls(camera, renderer.domElement);
+    controls.target.set(0,0,0);
+    controls.update();
 
     // Adding a light
     const color = 0xFFFFFF;
@@ -48,22 +43,35 @@ export function setup(canvasComponent) {
     scene.add(light);
     
     // Rendering the whole scene
-    animate(renderer, () => {
-        renderer.render(scene, camera);
-
+    function render() {
         if (resizeRenderer(renderer)) {
             const canvas = renderer.domElement;
             camera.aspect = canvas.clientWidth / canvas.clientHeight;
             camera.updateProjectionMatrix();
         }
-        
-        // Rotating the cubes
-        cubes.forEach((cube, index) => {
-            cube.rotation.x += (0.01 + (index / 100));
-            cube.rotation.y += (0.01 + (index / 100));
-        });
 
-        // Trying to rotate the line
-        line.rotation.y += 0.01;
-    });
+        renderer.render(scene, camera);
+    }
+
+    render();
+
+    // Event listeners - Rendering on demand
+    controls.addEventListener('change', render);
+    window.addEventListener('resize', render);
+
+    // animate(renderer, () => {
+    //     renderer.render(scene, camera);
+
+    //     if (resizeRenderer(renderer)) {
+    //         const canvas = renderer.domElement;
+    //         camera.aspect = canvas.clientWidth / canvas.clientHeight;
+    //         camera.updateProjectionMatrix();
+    //     }
+        
+    //     // Rotating the cubes
+    //     cubes.forEach((cube, index) => {
+    //         cube.rotation.x += (0.01 + (index / 100));
+    //         cube.rotation.y += (0.01 + (index / 100));
+    //     });
+    // });
 }
