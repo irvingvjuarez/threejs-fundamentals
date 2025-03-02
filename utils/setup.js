@@ -1,6 +1,5 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
-import { GUI } from 'three/examples/jsm/libs/lil-gui.module.min.js';
 import { ASPECT, FAR_NUMBER, FIELD_OF_VIEW, NEAR_NUMBER } from '../globals/constants';
 import { createCube } from './createCube';
 import { makeInstance } from './makeInstance';
@@ -19,13 +18,9 @@ export function setup(canvasComponent) {
     const renderer = new THREE.WebGLRenderer({ canvas: canvasComponent });
     renderer.setSize(window.innerWidth, window.innerHeight);
     document.body.appendChild(renderer.domElement);
-
-    // GUI
-    const gui = new GUI();
     
     // Adding cubes to the scene
     const defaultConfig = {
-        gui,
         handlerChange: requestRenderIfNotRequested
     }
     // const greenCube = createCube({ color: 0x44aa88 });
@@ -96,20 +91,4 @@ export function setup(canvasComponent) {
     // Event listeners - Rendering on demand
     controls.addEventListener('change', requestRenderIfNotRequested);
     window.addEventListener('resize', requestRenderIfNotRequested);
-
-    // animate(renderer, () => {
-    //     renderer.render(scene, camera);
-
-    //     if (resizeRenderer(renderer)) {
-    //         const canvas = renderer.domElement;
-    //         camera.aspect = canvas.clientWidth / canvas.clientHeight;
-    //         camera.updateProjectionMatrix();
-    //     }
-        
-    //     // Rotating the cubes
-    //     cubes.forEach((cube, index) => {
-    //         cube.rotation.x += (0.01 + (index / 100));
-    //         cube.rotation.y += (0.01 + (index / 100));
-    //     });
-    // });
 }
