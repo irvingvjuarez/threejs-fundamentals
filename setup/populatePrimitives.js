@@ -32,9 +32,10 @@ function renderPrimitives(selectElement, primitives, renderRequested) {
 
     form.addEventListener("input", (event) => {
         const { target } = event;
-        switch (target.id) {
-            case 'x':
-                currentInstance.position.x = Number(target.value);
+        
+        switch (target.name) {
+            case 'position':
+                currentInstance.position[target.id] = Number(target.value);
             break;
         }
         render(renderRequested);
