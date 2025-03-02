@@ -2,11 +2,12 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { ASPECT, FAR_NUMBER, FIELD_OF_VIEW, NEAR_NUMBER } from '../globals/constants';
 import { createCube } from './createCube';
+import { renderer } from './renderer';
 import { makeInstance } from './makeInstance';
 import { animate } from './render';
 import { resizeRenderer } from './resizeRenderer';
 
-export function setup(canvasComponent) {
+export function setup() {
     // Creating a scene
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(
@@ -15,8 +16,6 @@ export function setup(canvasComponent) {
         NEAR_NUMBER,
         FAR_NUMBER
     );
-    const renderer = new THREE.WebGLRenderer({ canvas: canvasComponent });
-    renderer.setSize(window.innerWidth, window.innerHeight);
     document.body.appendChild(renderer.domElement);
     
     // Adding cubes to the scene
