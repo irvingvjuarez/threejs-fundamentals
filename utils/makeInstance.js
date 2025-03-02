@@ -2,7 +2,7 @@ import * as THREE from 'three';
 import { gui } from './gui';
 
 export function makeInstance({
-    geometry = new THREE.BoxGeometry(1, 1, 1),
+    geometry = new THREE.BoxGeometry(8, 8, 8),
     color = 0x00ff00,
     x = 0,
     segments = true,

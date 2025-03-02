@@ -11,8 +11,16 @@ body {
     display: block;
 }
 .config {
+    background-color: white;
+    border-radius: 10px;
     position: absolute;
     bottom: 0;
-    padding: 30px;
+    padding: 20px;
+    margin: 10px;
     z-index: 2;
+}
+.config-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }

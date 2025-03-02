@@ -8,8 +8,16 @@
 	<body>
 		<section class="config">
 			<form class="config-form">
-				<select name="primitives" id="primitives-select">
-				</select>
+				<fieldset>
+					<label for="select">Current Element</label>
+					<select name="select" id="primitives-select">
+					</select>
+				</fieldset>
+
+				<fieldset>
+					<label for="x">Position in X</label>
+					<input type="text" name="x" placeholder="0">
+				</fieldset>
 			</form>
 		</section>
         <canvas id="threejs-container"></canvas>

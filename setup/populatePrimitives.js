@@ -15,9 +15,22 @@ function getPrimitives(renderRequested) {
                 });
                 scene.add(instance);
                 render(renderRequested);
+
+                return instance;
             }
         }
     ];
+}
+
+function renderPrimitives(selectElement, primitives) {
+    const [optionSelected] = selectElement.selectedOptions;
+    const primitiveSelected = primitives.find(primitive => primitive.name === optionSelected.value);
+    const currentInstance = primitiveSelected.handler();
+
+    const form = selectElement.parentElement;
+    form.addEventListener('change', (event) => {
+        console.log(event);
+    });
 }
 
 export function populatePrimitives(renderRequested) {
@@ -38,7 +51,5 @@ export function populatePrimitives(renderRequested) {
         selectElement.appendChild(option)
     });
 
-    const [optionSelected] = selectElement.selectedOptions;
-    const primitiveSelected = primitives.find(primitive => primitive.name === optionSelected.value);
-    primitiveSelected.handler();
+    renderPrimitives(selectElement, primitives);
 }

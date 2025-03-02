@@ -11,7 +11,7 @@ export function setup() {
     let renderRequested = false;
 
     // Camera setup
-    camera.position.set(0,0,15);
+    camera.position.set(0,0,35);
     camera.lookAt(0,0,0);
 
     // Controls setup
