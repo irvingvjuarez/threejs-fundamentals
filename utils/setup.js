@@ -4,23 +4,19 @@ import { ASPECT, FAR_NUMBER, FIELD_OF_VIEW, NEAR_NUMBER } from '../globals/const
 import { createCube } from './createCube';
 import { renderer } from './renderer';
 import { makeInstance } from './makeInstance';
-import { animate } from './render';
+import { animate, render, requestRenderIfNotRequested } from './render';
 import { resizeRenderer } from './resizeRenderer';
+import { camera } from './camera';
+import { scene } from './scene';
 
 export function setup() {
     // Creating a scene
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(
-        FIELD_OF_VIEW,
-        ASPECT, 
-        NEAR_NUMBER,
-        FAR_NUMBER
-    );
     document.body.appendChild(renderer.domElement);
+    let renderRequested = false;
     
     // Adding cubes to the scene
     const defaultConfig = {
-        handlerChange: requestRenderIfNotRequested
+        handlerChange: () => requestRenderIfNotRequested(renderRequested)
     }
     // const greenCube = createCube({ color: 0x44aa88 });
     const greenCube = makeInstance({ 
@@ -65,29 +61,9 @@ export function setup() {
     scene.add(light);
     
     // Rendering the whole scene
-    let renderRequested = false;
-
-    function render() {
-        renderRequested = false;
-
-        if (resizeRenderer(renderer)) {
-            const canvas = renderer.domElement;
-            camera.aspect = canvas.clientWidth / canvas.clientHeight;
-            camera.updateProjectionMatrix();
-        }
-
-        renderer.render(scene, camera);
-    }
-    render();
-
-    function requestRenderIfNotRequested() {
-        if (renderRequested === false) {
-            renderRequested = true;
-            requestAnimationFrame(render);
-        }
-    }
+    render(renderRequested);
 
     // Event listeners - Rendering on demand
-    controls.addEventListener('change', requestRenderIfNotRequested);
-    window.addEventListener('resize', requestRenderIfNotRequested);
+    controls.addEventListener('change', () => requestRenderIfNotRequested(renderRequested));
+    window.addEventListener('resize', () => requestRenderIfNotRequested(renderRequested));
 }
