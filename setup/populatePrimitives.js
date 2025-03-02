@@ -22,14 +22,22 @@ function getPrimitives(renderRequested) {
     ];
 }
 
-function renderPrimitives(selectElement, primitives) {
+function renderPrimitives(selectElement, primitives, renderRequested) {
     const [optionSelected] = selectElement.selectedOptions;
     const primitiveSelected = primitives.find(primitive => primitive.name === optionSelected.value);
     const currentInstance = primitiveSelected.handler();
 
-    const form = selectElement.parentElement;
-    form.addEventListener('change', (event) => {
-        console.log(event);
+    const form = document.querySelector('.config-form');
+    form.addEventListener('submit', event => event.preventDefault());
+
+    form.addEventListener("input", (event) => {
+        const { target } = event;
+        switch (target.id) {
+            case 'x':
+                currentInstance.position.x = Number(target.value);
+            break;
+        }
+        render(renderRequested);
     });
 }
 
@@ -51,5 +59,5 @@ export function populatePrimitives(renderRequested) {
         selectElement.appendChild(option)
     });
 
-    renderPrimitives(selectElement, primitives);
+    renderPrimitives(selectElement, primitives, renderRequested);
 }
