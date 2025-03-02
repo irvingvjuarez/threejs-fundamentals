@@ -4,10 +4,6 @@ import { renderer } from './renderer';
 import { resizeRenderer } from './resizeRenderer';
 import { scene } from './scene';
 
-export function animate(renderer, callback) {
-    renderer.setAnimationLoop(callback);
-}
-
 export function render(renderRequested) {
     renderRequested = false;
 

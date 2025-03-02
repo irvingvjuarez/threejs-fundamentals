@@ -1,11 +1,8 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
-import { ASPECT, FAR_NUMBER, FIELD_OF_VIEW, NEAR_NUMBER } from '../globals/constants';
-import { createCube } from './createCube';
 import { renderer } from './renderer';
 import { makeInstance } from './makeInstance';
-import { animate, render, requestRenderIfNotRequested } from './render';
-import { resizeRenderer } from './resizeRenderer';
+import { render, requestRenderIfNotRequested } from './render';
 import { camera } from './camera';
 import { scene } from './scene';
 
@@ -18,21 +15,18 @@ export function setup() {
     const defaultConfig = {
         handlerChange: () => requestRenderIfNotRequested(renderRequested)
     }
-    // const greenCube = createCube({ color: 0x44aa88 });
     const greenCube = makeInstance({ 
         ...defaultConfig,
         instanceName: 'Green Cube', 
         color: 0x44aa88, 
         x: 0
     });
-    // const whiteCube = createCube({ x: 3, color: 0x8844aa });
     const whiteCube = makeInstance({
         ...defaultConfig,
         instanceName: 'White Cube',
         color: 0x8844aa,
         x: 3
     });
-    // const blackCube = createCube({ x: -3, color: 0xaa8844 });
     const blackCube = makeInstance({
         ...defaultConfig,
         instanceName: 'Black Cube',
