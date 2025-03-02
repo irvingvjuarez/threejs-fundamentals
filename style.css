@@ -2,8 +2,17 @@ html, body {
     margin: 0;
     height: 100%;
 }
+body {
+    position: relative;
+}
 #threejs-container {
     width: 100%;
     height: 100%;
     display: block;
+}
+.config {
+    position: absolute;
+    bottom: 0;
+    padding: 30px;
+    z-index: 2;
 }
