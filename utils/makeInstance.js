@@ -11,12 +11,11 @@ export function makeInstance({
 }) {
     const material = new THREE.MeshPhongMaterial({ color });
     const instance = new THREE.Mesh(geometry, material);
-    let lineSegments
 
     if (segments) {
         const geometryEdges = new THREE.EdgesGeometry(geometry, 360);
         const materialEdges = new THREE.LineBasicMaterial({ color: 'black' });
-        lineSegments = new THREE.LineSegments(geometryEdges, materialEdges);
+        const lineSegments = new THREE.LineSegments(geometryEdges, materialEdges);
 
         instance.add(lineSegments);
     }
@@ -32,13 +31,13 @@ export function makeInstance({
         .name('position x')
         .onChange(handlerChange)
 
-    folder.add(instance.geometry.parameters, 'widthSegments', 1, 8)
+    folder.add(instance.geometry.parameters, 'widthSegments', 1, 8, 1)
         .name('width segments')
-        .step(1)
         .onChange((widthSegmentsValue) => {
+            const [currentChild] = instance.children;
             instance.geometry.dispose();
-            instance.geometry = new THREE.BoxGeometry(8,8,8,widthSegmentsValue)
-            instance.remove(lineSegments);
+            instance.geometry = new THREE.BoxGeometry(8,8,8,widthSegmentsValue);
+            instance.remove(currentChild);
             instance.add(new THREE.LineSegments(
                 new THREE.EdgesGeometry(instance.geometry, 360),
                 new THREE.LineBasicMaterial({ color: 'black' })
