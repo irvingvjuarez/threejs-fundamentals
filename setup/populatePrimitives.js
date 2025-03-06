@@ -30,16 +30,16 @@ function renderPrimitives(selectElement, primitives, renderRequested) {
     const form = document.querySelector('.config-form');
     form.addEventListener('submit', event => event.preventDefault());
 
-    form.addEventListener("input", (event) => {
-        const { target } = event;
+    // form.addEventListener("input", (event) => {
+    //     const { target } = event;
         
-        switch (target.name) {
-            case 'position':
-                currentInstance.position[target.id] = Number(target.value);
-            break;
-        }
-        render(renderRequested);
-    });
+    //     switch (target.name) {
+    //         case 'position':
+    //             currentInstance.position[target.id] = Number(target.value);
+    //         break;
+    //     }
+    //     render(renderRequested);
+    // });
 }
 
 export function populatePrimitives(renderRequested) {
