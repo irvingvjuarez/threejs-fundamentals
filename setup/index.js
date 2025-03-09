@@ -47,6 +47,9 @@ export function setup() {
         geometriesConfig
     );
 
+    // Adding Rotation switch to gui
+    addOptionsToGUI('rotation', {rotation: false})
+
     // Returning flag
     return renderRequested;
 }
