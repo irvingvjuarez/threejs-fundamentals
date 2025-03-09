@@ -6,6 +6,7 @@ import { camera } from '../utils/camera';
 import { scene } from '../utils/scene';
 import { addOptionsToGUI } from '../utils/addOptionsToGUI';
 import { GEOMETRIES } from '../globals/constants';
+import { gui } from '../utils/gui';
 
 export function setup() {
     // Creating a scene
@@ -41,14 +42,28 @@ export function setup() {
     const geometriesInitialValue = {geometries: geometriesDefault.name}
     const geometriesValues = GEOMETRIES.map(geometry => geometry.name);
     const geometriesConfig = geometriesValues.reduce((prev, curr) => ({...prev, [curr]: curr}), {});
-    addOptionsToGUI(
+    const geometriesController = addOptionsToGUI(
         'geometries', 
         geometriesInitialValue, 
         geometriesConfig
     );
 
     // Adding Rotation switch to gui
-    addOptionsToGUI('rotation', {rotation: false})
+    const rotationController = addOptionsToGUI('rotation', {rotation: false});
+    rotationController.onChange(isRotating => {
+        if (isRotating) {
+            const { initialValue } = geometriesController;
+            const primitiveGeometry = GEOMETRIES.find(geometry => geometry.name === initialValue);
+            const geometryInstance = primitiveGeometry.getInstance();
+            renderer.setAnimationLoop(() => {
+                geometryInstance.rotation.x += 0.01;
+                geometryInstance.rotation.y += 0.01;
+                render(true)
+            });
+        } else {
+            renderer.st
+        }
+    });
 
     // Returning flag
     return renderRequested;
