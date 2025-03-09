@@ -29,17 +29,14 @@ export const GEOMETRIES = [
         addFolderController(controllerName, initialValue, config = []) {
             return this.guiFolder.add(initialValue, controllerName, ...config);
         },
-        handler(renderRequested) {
-            scene.add(this.instance);
-            render(renderRequested);
-
-            const controller = this.addFolderController(
+        addSegmentsController(renderRequested) {
+            const segmentsController = this.addFolderController(
                 'segments',
-                {segments: 1},
+                { segments: 1 },
                 [1, 8, 1]
             );
 
-            controller.onChange((segmentsValue) => {
+            segmentsController.onChange((segmentsValue) => {
                 const [segmentsGeometry] = this.instance.children;
                 this.instance.geometry.dispose();
 
@@ -54,6 +51,12 @@ export const GEOMETRIES = [
 
                 requestRenderIfNotRequested(renderRequested);
             });
+        },
+        handler(renderRequested) {
+            scene.add(this.instance);
+            render(renderRequested);
+
+            this.addSegmentsController(renderRequested);
         }
     }
 ];
