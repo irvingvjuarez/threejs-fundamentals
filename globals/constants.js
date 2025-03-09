@@ -52,11 +52,18 @@ export const GEOMETRIES = [
                 requestRenderIfNotRequested(renderRequested);
             });
         },
+        addColorController(renderRequested) {
+            this.guiFolder.addColor({ color: 0x00ff00 }, 'color').onChange((colorValue) => {
+                this.instance.material.color.set(colorValue);
+                requestRenderIfNotRequested(renderRequested);
+            });
+        },  
         handler(renderRequested) {
             scene.add(this.instance);
             render(renderRequested);
 
             this.addSegmentsController(renderRequested);
+            this.addColorController(renderRequested);
         }
     }
 ];
