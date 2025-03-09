@@ -45,9 +45,8 @@ export function makeInstance({
             handlerChange();
         })
     
-    // console.log(instance);
 
     folder.open();
 
-    return instance;
+    return {instance, guiFolder: folder};
 }
