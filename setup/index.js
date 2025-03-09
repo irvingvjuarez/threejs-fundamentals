@@ -61,7 +61,7 @@ export function setup() {
                 render(true)
             });
         } else {
-            renderer.st
+            renderer.setAnimationLoop(null);
         }
     });
 
