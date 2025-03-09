@@ -4,7 +4,8 @@ import { renderer } from '../utils/renderer';
 import { render, requestRenderIfNotRequested } from '../utils/render';
 import { camera } from '../utils/camera';
 import { scene } from '../utils/scene';
-import { gui } from '../utils/gui';
+import { addOptionsToGUI } from '../utils/addOptionsToGUI';
+import { GEOMETRIES } from '../globals/constants';
 
 export function setup() {
     // Creating a scene
@@ -36,10 +37,15 @@ export function setup() {
     window.addEventListener('resize', () => requestRenderIfNotRequested(renderRequested));
 
     // Adding list of figures in gui
-    gui.add({geometries: 'Cube'}, 'geometries', {
-        cube: 'Cube',
-        circle: 'Circle'
-    })
+    const [geometriesDefault] = GEOMETRIES;
+    const geometriesInitialValue = {geometries: geometriesDefault.name}
+    const geometriesValues = GEOMETRIES.map(geometry => geometry.name);
+    const geometriesConfig = geometriesValues.reduce((prev, curr) => ({...prev, [curr]: curr}), {});
+    addOptionsToGUI(
+        'geometries', 
+        geometriesInitialValue, 
+        geometriesConfig
+    );
 
     // Returning flag
     return renderRequested;
