@@ -30,14 +30,15 @@ export const GEOMETRIES = [
             return this.guiFolder.add(initialValue, controllerName, ...config);
         },
         addSegmentsController(renderRequested) {
-            const segmentsController = this.addFolderController(
-                'segments',
+            const segmentsController = this.guiFolder.add(
                 { segments: 1 },
-                [1, 8, 1]
+                'segments',
+                ...Object.values({from: 1, to: 8, step: 1})
             );
 
             segmentsController.onChange((segmentsValue) => {
                 const [segmentsGeometry] = this.instance.children;
+                const { color: segmentsColor } = segmentsGeometry.material;
                 this.instance.geometry.dispose();
 
                 this.instance.geometry = new THREE.BoxGeometry(8,8,8,segmentsValue, segmentsValue, segmentsValue);
@@ -45,12 +46,19 @@ export const GEOMETRIES = [
 
                 const newSegmentsGeometry = new THREE.LineSegments(
                     new THREE.EdgesGeometry(this.instance.geometry, 360),
-                    new THREE.LineBasicMaterial({ color: 'black' })
+                    new THREE.LineBasicMaterial({ color: segmentsColor })
                 );
                 this.instance.add(newSegmentsGeometry);
 
                 requestRenderIfNotRequested(renderRequested);
             });
+
+            this.guiFolder.addColor({ segmentsColor: 'black' }, 'segmentsColor')
+                .onChange((colorValue) => {
+                    const [segmentsGeometry] = this.instance.children;
+                    segmentsGeometry.material.color.set(colorValue);
+                    requestRenderIfNotRequested(renderRequested);
+                })
         },
         addColorController(renderRequested) {
             this.guiFolder.addColor({ color: 0x00ff00 }, 'color').onChange((colorValue) => {
