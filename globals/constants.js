@@ -34,17 +34,17 @@ export const GEOMETRIES = [
             render(renderRequested);
 
             const controller = this.addFolderController(
-                'heightSegments',
-                this.instance.geometry.parameters,
+                'segments',
+                {segments: 1},
                 [1, 8, 1]
             );
 
-            controller.onChange((heightSegments) => {
-                const [segmentGeometry] = this.instance.children;
-                const { widthSegments } = this.instance.geometry.parameters;
+            controller.onChange((segmentsValue) => {
+                const [segmentsGeometry] = this.instance.children;
                 this.instance.geometry.dispose();
-                this.instance.geometry = new THREE.BoxGeometry(8,8,8,widthSegments, heightSegments);
-                this.instance.remove(segmentGeometry);
+
+                this.instance.geometry = new THREE.BoxGeometry(8,8,8,segmentsValue, segmentsValue, segmentsValue);
+                this.instance.remove(segmentsGeometry);
 
                 const newSegmentsGeometry = new THREE.LineSegments(
                     new THREE.EdgesGeometry(this.instance.geometry, 360),

@@ -31,21 +31,6 @@ export function makeInstance({
         .name('position x')
         .onChange(handlerChange)
 
-    folder.add(instance.geometry.parameters, 'widthSegments', 1, 8, 1)
-        .name('width segments')
-        .onChange((widthSegmentsValue) => {
-            const [currentChild] = instance.children;
-            instance.geometry.dispose();
-            instance.geometry = new THREE.BoxGeometry(8,8,8,widthSegmentsValue);
-            instance.remove(currentChild);
-            instance.add(new THREE.LineSegments(
-                new THREE.EdgesGeometry(instance.geometry, 360),
-                new THREE.LineBasicMaterial({ color: 'black' })
-            ));
-            handlerChange();
-        })
-    
-
     folder.open();
 
     return {instance, guiFolder: folder};
