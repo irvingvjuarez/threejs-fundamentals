@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { gui } from './gui';
+import { gui } from '../controllers/gui';
 
 export function makeInstance({
     geometry = new THREE.BoxGeometry(8, 8, 8),

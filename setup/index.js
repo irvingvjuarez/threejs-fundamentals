@@ -4,9 +4,9 @@ import { renderer } from '../utils/renderer';
 import { render, requestRenderIfNotRequested } from '../utils/render';
 import { camera } from '../utils/camera';
 import { scene } from '../utils/scene';
-import { addOptionsToGUI } from '../utils/addOptionsToGUI';
+import { addController } from '../controllers/addController';
 import { GEOMETRIES } from '../globals/constants';
-import { gui } from '../utils/gui';
+import { addRotationController } from '../controllers/addRotationController';
 
 export function setup() {
     // Creating a scene
@@ -42,28 +42,14 @@ export function setup() {
     const geometriesInitialValue = {geometries: geometriesDefault.name}
     const geometriesValues = GEOMETRIES.map(geometry => geometry.name);
     const geometriesConfig = geometriesValues.reduce((prev, curr) => ({...prev, [curr]: curr}), {});
-    const geometriesController = addOptionsToGUI(
+    const geometriesController = addController(
         'geometries', 
         geometriesInitialValue, 
         geometriesConfig
     );
 
     // Adding Rotation switch to gui
-    const rotationController = addOptionsToGUI('rotation', {rotation: false});
-    rotationController.onChange(isRotating => {
-        if (isRotating) {
-            const { initialValue } = geometriesController;
-            const primitiveGeometry = GEOMETRIES.find(geometry => geometry.name === initialValue);
-            const geometryInstance = primitiveGeometry.getInstance();
-            renderer.setAnimationLoop(() => {
-                geometryInstance.rotation.x += 0.01;
-                geometryInstance.rotation.y += 0.01;
-                render(true)
-            });
-        } else {
-            renderer.setAnimationLoop(null);
-        }
-    });
+    addRotationController(geometriesController);
 
     // Returning flag
     return renderRequested;

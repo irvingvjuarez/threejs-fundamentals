@@ -1,5 +1,5 @@
 import { GEOMETRIES } from '../globals/constants';
-import { gui } from '../utils/gui';
+import { gui } from '../controllers/gui';
 
 export function populatePrimitives(renderRequested) {
     const primitives = GEOMETRIES;
