@@ -14,7 +14,7 @@ export function makeInstance({
 
     if (segments) {
         const geometryEdges = new THREE.EdgesGeometry(geometry, 360);
-        const materialEdges = new THREE.LineBasicMaterial({ color: 'black' });
+        const materialEdges = new THREE.LineBasicMaterial({ color: 'white' });
         const lineSegments = new THREE.LineSegments(geometryEdges, materialEdges);
 
         instance.add(lineSegments);

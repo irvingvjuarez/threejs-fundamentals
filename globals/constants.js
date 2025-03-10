@@ -53,7 +53,10 @@ export const GEOMETRIES = [
                 requestRenderIfNotRequested(renderRequested);
             });
 
-            this.guiFolder.addColor({ segmentsColor: 'black' }, 'segmentsColor')
+
+            const [segmentsGeometry] = this.instance.children;
+            const { color: segmentsColor } = segmentsGeometry.material;
+            this.guiFolder.addColor({ segmentsColor }, 'segmentsColor')
                 .onChange((colorValue) => {
                     const [segmentsGeometry] = this.instance.children;
                     segmentsGeometry.material.color.set(colorValue);
