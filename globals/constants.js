@@ -12,9 +12,11 @@ export const GEOMETRIES = [
     {
         name: 'Cube',
         instance: null,
+        renderOnDemand: null,
         setInstance(renderRequested) {
+            this.renderOnDemand = () => requestRenderIfNotRequested(renderRequested);
             const { instance, guiFolder } = makeInstance({
-                handlerChange: () => requestRenderIfNotRequested(renderRequested),
+                handlerChange: this.renderOnDemand,
                 instanceName: 'Cube', 
                 color: 0x44aa88, 
                 x: 0
@@ -29,7 +31,7 @@ export const GEOMETRIES = [
         addFolderController(controllerName, initialValue, config = []) {
             return this.guiFolder.add(initialValue, controllerName, ...config);
         },
-        addSegmentsController(renderRequested) {
+        addSegmentsController() {
             const segmentsController = this.guiFolder.add(
                 { segments: 1 },
                 'segments',
@@ -50,7 +52,7 @@ export const GEOMETRIES = [
                 );
                 this.instance.add(newSegmentsGeometry);
 
-                requestRenderIfNotRequested(renderRequested);
+                this.renderOnDemand();
             });
 
 
@@ -60,21 +62,21 @@ export const GEOMETRIES = [
                 .onChange((colorValue) => {
                     const [segmentsGeometry] = this.instance.children;
                     segmentsGeometry.material.color.set(colorValue);
-                    requestRenderIfNotRequested(renderRequested);
+                    this.renderOnDemand();
                 })
         },
-        addColorController(renderRequested) {
+        addColorController() {
             this.guiFolder.addColor({ color: 0x00ff00 }, 'color').onChange((colorValue) => {
                 this.instance.material.color.set(colorValue);
-                requestRenderIfNotRequested(renderRequested);
+                this.renderOnDemand();
             });
         },  
         handler(renderRequested) {
             scene.add(this.instance);
             render(renderRequested);
 
-            this.addSegmentsController(renderRequested);
-            this.addColorController(renderRequested);
+            this.addSegmentsController();
+            this.addColorController();
         }
     }
 ];
